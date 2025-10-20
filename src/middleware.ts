@@ -13,7 +13,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Protected routes
-  if (pathname.startsWith('/api/') || pathname === '/') {
+  if (pathname.startsWith('/api/') && !pathname.startsWith('/api/auth/')) {
     const token = request.headers.get('authorization')?.replace('Bearer ', '');
 
     if (!token) {
@@ -23,7 +23,7 @@ export function middleware(request: NextRequest) {
     try {
       jwt.verify(token, JWT_SECRET);
       return NextResponse.next();
-    } catch (error) {
+    } catch {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
   }

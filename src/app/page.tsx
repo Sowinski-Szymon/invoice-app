@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import InvoicePreview from '@/components/InvoicePreview';
 
@@ -17,17 +17,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      router.push('/login');
-      return;
-    }
-
-    fetchInvoices();
-  }, [router]);
-
-  const fetchInvoices = async () => {
+  const fetchInvoices = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('/api/webhook', {
@@ -45,7 +35,17 @@ export default function HomePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
+    fetchInvoices();
+  }, [router, fetchInvoices]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');

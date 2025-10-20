@@ -38,5 +38,6 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   // For testing purposes, return pending invoices
+  // Note: In production, this should require authentication
   return NextResponse.json({ pendingInvoices });
 }

@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 const users = [
   {
     username: 'admin',
-    password: '$2a$10$example.hash.here', // bcrypt hash for 'password'
+    password: '$2b$10$afTeuHoakNY41529F1YtleqT9wwAK5UY/sFLdw3IyyuhBE61yak9e', // bcrypt hash for 'password'
   },
 ];
 
